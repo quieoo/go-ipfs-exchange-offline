@@ -4,11 +4,15 @@ package offline
 
 import (
 	"context"
+	"fmt"
 
 	blocks "github.com/ipfs/go-block-format"
 	cid "github.com/ipfs/go-cid"
 	blockstore "github.com/ipfs/go-ipfs-blockstore"
 	exchange "github.com/ipfs/go-ipfs-exchange-interface"
+	"github.com/libp2p/go-libp2p-core/peer"
+
+	"github.com/libp2p/go-libp2p-core/routing"
 )
 
 func Exchange(bs blockstore.Blockstore) exchange.Interface {
@@ -67,7 +71,19 @@ func (e *offlineExchange) GetBlocks(ctx context.Context, ks []cid.Cid) (<-chan b
 	}()
 	return out, nil
 }
+func (e *offlineExchange) GetPeers() []peer.ID {
+	return nil
+}
+func (bs *offlineExchange) GetBlocksFrom(ctx context.Context, keys []cid.Cid, p peer.ID) (<-chan blocks.Block, error) {
+	return nil, nil
+}
+func (bs *offlineExchange) GetRouting() routing.ContentRouting {
+	return nil
+}
 
+func (bs *offlineExchange) PeerConnect(id peer.ID) {
+	fmt.Printf("TODO offline PeerConnect called")
+}
 func (e *offlineExchange) IsOnline() bool {
 	return false
 }
